@@ -104,17 +104,6 @@ function replaceFullEditor(editor, text) {
 }
 
 function showButtons(context) {
-  saveButton = vscode.window.createStatusBarItem(
-    vscode.StatusBarAlignment.Right,
-    100
-  );
-  saveButton.text = "$(save) Save JSON";
-  saveButton.tooltip = "Save a copy of the current file";
-  saveButton.command = "dcluttr-json-editor.saveJSON";
-  saveButton.show();
-
-  context.subscriptions.push(saveButton);
-
   fetchButton = vscode.window.createStatusBarItem(
     vscode.StatusBarAlignment.Right,
     100
@@ -125,6 +114,17 @@ function showButtons(context) {
   fetchButton.show();
 
   context.subscriptions.push(fetchButton);
+
+  saveButton = vscode.window.createStatusBarItem(
+    vscode.StatusBarAlignment.Right,
+    100
+  );
+  saveButton.text = "$(save) Save JSON";
+  saveButton.tooltip = "Save a copy of the current file";
+  saveButton.command = "dcluttr-json-editor.saveJSON";
+  saveButton.show();
+
+  context.subscriptions.push(saveButton);
 }
 
 function hideButtons() {
