@@ -1,0 +1,46 @@
+{
+  "name": "dcluttr-json-editor",
+  "displayName": "Dcluttr Dynamic Dashboard Editor",
+  "description": "",
+  "version": "0.0.2",
+  "publisher": "HMV007",
+  "icon": "images/logo.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dcluttr-HQ/dcluttr-json-editor.git"
+  },
+  "engines": {
+    "vscode": "^1.99.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "dcluttr-json-editor.sendFileData",
+        "title": "Send File Data to API"
+      }
+    ]
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.99.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.23.0"
+  },
+  "dependencies": {
+    "node-fetch": "^2.7.0"
+  }
+}
