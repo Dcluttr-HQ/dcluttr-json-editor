@@ -3,6 +3,7 @@
   "displayName": "Dcluttr Dynamic Dashboard Editor",
   "description": "",
   "version": "0.0.2",
+  "author": "HM Varshney<varshney.hm@gmail.com>",
   "publisher": "HMV007",
   "icon": "images/logo.png",
   "repository": {
@@ -22,8 +23,12 @@
   "contributes": {
     "commands": [
       {
-        "command": "dcluttr-json-editor.sendFileData",
-        "title": "Send File Data to API"
+        "command": "dcluttr-json-editor.fetchJSON",
+        "title": "Fetch JSON"
+      },
+      {
+        "command": "dcluttr-json-editor.saveJSON",
+        "title": "Save JSON"
       }
     ]
   },
