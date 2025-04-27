@@ -1,4 +1,4 @@
-![Extension Logo](images/logo.png)
+![Extension Logo](https://raw.githubusercontent.com/Dcluttr-HQ/dcluttr-json-editor/refs/heads/master/images/logo.png)
 
 # dcluttr-json-editor README
 
