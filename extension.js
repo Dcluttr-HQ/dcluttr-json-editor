@@ -96,7 +96,7 @@ function replaceFullEditor(editor, text) {
   const document = editor.document;
   const fullRange = new vscode.Range(
     document.positionAt(0),
-    document.positionAt(text.length)
+    document.positionAt(document.getText().length)
   );
   editor.edit((editBuilder) => {
     editBuilder.replace(fullRange, text);
@@ -200,6 +200,7 @@ function activate(context) {
           }
         }
 
+        let newJSONs = [];
         let diffs = [];
         if (jsons) {
           jsonData.forEach((j) => {
@@ -211,18 +212,36 @@ function activate(context) {
               if (str1 !== str2) {
                 diffs.push(j);
               }
+            } else {
+              newJSONs.push(j);
             }
           });
         } else {
           diffs = jsonData;
         }
 
+        if (newJSONs.length) {
+          const confirmation = await vscode.window.showInformationMessage(
+            `You are going to create ${newJSONs.length} new JSONs and update ${diffs.length} jsons. Are you sure?`,
+            { modal: true },
+            "Yes",
+            "No"
+          );
+
+          if (confirmation !== "Yes") {
+            return;
+          }
+        }
+
         try {
+          for (const j of newJSONs) {
+            await updateJSON(j);
+          }
           for (const j of diffs) {
             await updateJSON(j);
           }
           vscode.window.showInformationMessage(
-            `JSONs updated successfully: ${diffs.length}`
+            `JSONs updated successfully. Updated: ${diffs.length}; New: ${newJSONs.length}`
           );
         } catch (err) {
           vscode.window.showErrorMessage(
