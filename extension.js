@@ -8,7 +8,7 @@ let saveButton;
 let fetchButton;
 
 async function loginToAPI() {
-  const url = "https://auth-dev.dcluttr.ai/auth/login";
+  const url = "https://auth.dcluttr.ai/auth/login";
 
   const headers = {
     "Content-Type": "application/json",
@@ -45,7 +45,7 @@ async function fetchJSON(brandId) {
     await loginToAPI();
   }
 
-  const url = `https://auth-dev.dcluttr.ai/brand/${brandId}/dashboards`;
+  const url = `https://auth.dcluttr.ai/brand/${brandId}/dashboards`;
 
   const headers = {
     "Content-Type": "application/json",
@@ -73,7 +73,7 @@ async function updateJSON(jsonData) {
     await loginToAPI();
   }
 
-  const url = "https://auth-dev.dcluttr.ai/brand/9/dashboards";
+  const url = "https://auth.dcluttr.ai/brand/9/dashboards";
 
   const headers = {
     "Content-Type": "application/json",
