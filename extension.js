@@ -6,6 +6,7 @@ let jsons;
 
 let saveButton;
 let fetchButton;
+let deleteButton;
 
 async function loginToAPI() {
   const url = "https://auth.dcluttr.ai/auth/login";
@@ -92,6 +93,29 @@ async function updateJSON(jsonData) {
   }
 }
 
+async function deleteJSON(jsonId) {
+  if (!token) {
+    await loginToAPI();
+  }
+
+  const url = "https://auth.dcluttr.ai/brand/dashboards/delete";
+  const headers = {
+    "Content-Type": "application/json",
+    Accept: "*/*",
+    Authorization: `Bearer ${token}`,
+  };
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers,
+    body: jsonId,
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+}
+
 function replaceFullEditor(editor, text) {
   const document = editor.document;
   const fullRange = new vscode.Range(
@@ -125,6 +149,15 @@ function showButtons(context) {
   saveButton.show();
 
   context.subscriptions.push(saveButton);
+
+  deleteButton = vscode.window.createStatusBarItem(
+    vscode.StatusBarAlignment.Right,
+    100
+  );
+  deleteButton.text = "$(trash) Delete JSON";
+  deleteButton.tooltip = "Delete the selected json";
+  deleteButton.command = "dcluttr-json-editor.deleteJSON";
+  deleteButton.show();
 }
 
 function hideButtons() {
@@ -133,6 +166,9 @@ function hideButtons() {
   }
   if (fetchButton) {
     fetchButton.hide();
+  }
+  if (deleteButton) {
+    deleteButton.hide();
   }
 }
 
@@ -280,8 +316,57 @@ function activate(context) {
     }
   );
 
+  const deleteJSONCommand = vscode.commands.registerCommand(
+    "dcluttr-json-editor.deleteJSON",
+    function () {
+      const editor = vscode.window.activeTextEditor;
+      if (!editor) {
+        return;
+      }
+
+      const selection = editor.selection;
+      const jsonId = editor.document.getText(selection);
+      if (!jsonId) {
+        return;
+      }
+
+      (async () => {
+        const confirmation = await vscode.window.showInformationMessage(
+          `Do you want to delete the json: ${jsonId}`,
+          { modal: true },
+          "Yes",
+          "No"
+        );
+
+        if (confirmation !== "Yes") {
+          return;
+        }
+
+        try {
+          deleteJSON(jsonId).then(() => {
+            vscode.window.showInformationMessage(
+              `JSON: ${jsonId} deleted. Updating the editor...`
+            );
+            const brandId = jsonId.split("|")?.[0];
+            if (brandId) {
+              fetchJSON(brandId).then((jsons) => {
+                const textToBeReplaced = JSON.stringify(jsons, null, 2);
+                replaceFullEditor(editor, textToBeReplaced);
+              });
+            }
+          });
+        } catch (err) {
+          vscode.window.showErrorMessage(
+            "Failed to delete the JSON: " + err.message
+          );
+        }
+      })();
+    }
+  );
+
   context.subscriptions.push(saveJSONCommand);
   context.subscriptions.push(fetchJSONCommand);
+  context.subscriptions.push(deleteJSONCommand);
 }
 
 // This method is called when your extension is deactivated

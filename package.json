@@ -29,6 +29,10 @@
       {
         "command": "dcluttr-json-editor.saveJSON",
         "title": "Save JSON"
+      },
+      {
+        "command": "dcluttr-json-editor.deleteJSON",
+        "title": "Delete JSON"
       }
     ]
   },
