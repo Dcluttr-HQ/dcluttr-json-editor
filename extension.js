@@ -74,7 +74,7 @@ async function updateJSON(jsonData) {
     await loginToAPI();
   }
 
-  const url = "https://auth.dcluttr.ai/brand/9/dashboards";
+  const url = "https://auth.dcluttr.ai/brand/53/dashboards";
 
   const headers = {
     "Content-Type": "application/json",
