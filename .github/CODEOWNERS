@@ -1,0 +1,5 @@
+# Default owners for everything in the repo
+* @dcluttr-hq/pr-reviewer
+
+# Workflow files require devops team review
+.github/workflows/ @dcluttr-hq/devops
